@@ -1,4 +1,4 @@
-import httpCertify from "./__httpCertify.js";
+import httpCertify from "./_httpCertify.js";
 
 export default async (stage, pfxFile, passphrase) => {
 
@@ -6,4 +6,3 @@ export default async (stage, pfxFile, passphrase) => {
 
     return resp.buffer();
 };
-

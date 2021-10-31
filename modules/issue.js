@@ -1,4 +1,4 @@
-import httpCertify from "./__httpCertify.js";
+import httpCertify from "./_httpCertify.js";
 
 export default async (stage, body, headers, pfxFile, passphrase) => {
     const path = "/api/certify/v2/issue/hash"
