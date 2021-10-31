@@ -1,27 +1,8 @@
-import httpClient from './_httpRequest.js';
-import https from "https";
+import httpCertify from "./__httpCertify.js";
 
 export default async (stage, body, headers, pfxFile, passphrase) => {
-    if (stage === "") {
-        throw new Error("Stage can't be empty.")
-    }
-
-    const url = "https://api.certify." + stage + ".ubirch.com/api/certify/v2/issue/hash"
-
-    const httpsAgent = new https.Agent({
-        keepAlive: true,
-        pfx: pfxFile,
-        passphrase: passphrase
-    });
-
-    const resp = await httpClient.post({
-        url: url,
-        details:  {
-            body: body,
-            headers: headers,
-            agent: httpsAgent
-        }
-    });
+    const path = "/api/certify/v2/issue/hash"
+    const resp = await httpCertify(stage, path, "post", body, headers, pfxFile, passphrase)
 
     return resp.buffer();
 };
