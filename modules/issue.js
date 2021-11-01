@@ -41,12 +41,11 @@ export default async (stage, data, dccType, locId, txId, pfxFile, passphrase) =>
     const cert = await resp.buffer();
 
     const decodedCert = await cbor.decodeAll(cert);
-    decodedCert[0].value[2] = payload;
+    decodedCert[0].value[2] = payload; //payload replacement
 
     const encodedCert = cbor.encodeCanonical(decodedCert[0]);
     const compressedCert = await deflatePromise(encodedCert);
 
     return "HC1:" + base45.encode(compressedCert);
-
 };
 
