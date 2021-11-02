@@ -9,8 +9,6 @@ import base45 from "base45";
 const deflatePromise = util.promisify(zlib.deflate);
 
 const issue = async (stage, data, headers, pfxFile, passphrase) => {
-    const path = "/api/certify/v2/issue/hash";
-
     let p = new cbor.Map();
     p.set(1, data);
 
@@ -31,6 +29,7 @@ const issue = async (stage, data, headers, pfxFile, passphrase) => {
 
     const hash = crypto.createHash('sha256').update(sigStructureEncoded).digest('base64');
 
+    const path = "/api/certify/v2/issue/hash";
     const resp = await httpCertify(stage, path, "post", hash, headers, pfxFile, passphrase);
     const cert = await resp.buffer();
 
