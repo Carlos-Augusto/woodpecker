@@ -8,14 +8,8 @@ import base45 from "base45";
 
 const deflatePromise = util.promisify(zlib.deflate);
 
-export default async (stage, data, dccType, locId, txId, pfxFile, passphrase) => {
+const issue = async (stage, data, headers, pfxFile, passphrase) => {
     const path = "/api/certify/v2/issue/hash";
-    const _headers = {
-        "x-ubirch-dcctype": dccType,
-        "x-location-id": locId,
-        "x-transaction-id": txId,
-        "Content-Type": "text/plain"
-    };
 
     let p = new cbor.Map();
     p.set(1, data);
@@ -37,7 +31,7 @@ export default async (stage, data, dccType, locId, txId, pfxFile, passphrase) =>
 
     const hash = crypto.createHash('sha256').update(sigStructureEncoded).digest('base64');
 
-    const resp = await httpCertify(stage, path, "post", hash, _headers, pfxFile, passphrase);
+    const resp = await httpCertify(stage, path, "post", hash, headers, pfxFile, passphrase);
     const cert = await resp.buffer();
 
     const decodedCert = await cbor.decodeAll(cert);
@@ -47,5 +41,20 @@ export default async (stage, data, dccType, locId, txId, pfxFile, passphrase) =>
     const compressedCert = await deflatePromise(encodedCert);
 
     return "HC1:" + base45.encode(compressedCert);
+}
+
+const fromLoc = (stage, data, dccType, locId, txId, pfxFile, passphrase) => {
+    const headers = {
+        "x-ubirch-dcctype": dccType,
+        "x-location-id": locId,
+        "x-transaction-id": txId,
+        "Content-Type": "text/plain"
+    };
+
+    return issue(stage, data, headers, pfxFile, passphrase);
+}
+
+export default {
+    fromLoc
 };
 
