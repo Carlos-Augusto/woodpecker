@@ -9,9 +9,9 @@ if (result.error) {
 
 const pfx = fs.readFileSync(process.env.PFX_FILE_PATH)
 const passphrase = process.env.PFX_FILE_PASSPHRASE
+const stage = process.env.STAGE;
 
 const run = async () => {
-    const stage = "demo";
     const data = {id: 123456789};
     const dccType = "V";
     const locId = "9bc7d6c873080af8c39453157a3937d32c779c909e78b0d8547dd20648994f1f";

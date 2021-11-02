@@ -1,4 +1,5 @@
 import httpCertify from "./_httpCertify.js";
+import {addDays, unixTime} from "./_addDays.js";
 
 import cbor from "cbor";
 import crypto from "crypto";
@@ -9,13 +10,15 @@ import base45 from "base45";
 const deflatePromise = util.promisify(zlib.deflate);
 
 const issue = async (stage, data, headers, pfxFile, passphrase) => {
+    const now = new Date();
+
     let p = new cbor.Map();
     p.set(1, data);
 
     let _payload = new cbor.Map();
     _payload.set(1, "DE"); // issuer
-    _payload.set(6, 1619167131); // issued time
-    _payload.set(4, 1719792666); // exp
+    _payload.set(6, unixTime(now.getTime())); // issued time
+    _payload.set(4, unixTime(addDays(now, 2).getTime())); // exp
     _payload.set(-260, p);
 
     let payload = cbor.encodeCanonical(_payload);
