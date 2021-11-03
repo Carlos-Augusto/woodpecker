@@ -6,9 +6,9 @@ export default async (stage, path, method, body, headers, pfxFile, passphrase) =
         throw new Error("Stage can't be empty.")
     }
 
-    let url = "https://api.certify." + stage + ".ubirch.com" + path;
+    let url = "https://api.uve." + stage + ".ubirch.com" + path;
     if (stage === "prod") {
-        url = "https://api.certify.ubirch.com" + path;
+        url = "https://api.uve.ubirch.com" + path;
     }
 
     const httpsAgent = new https.Agent({
