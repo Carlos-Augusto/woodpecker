@@ -1,4 +1,4 @@
-import woodpecker from "../modules/woodpecker.js";
+import woodpecker from "../modules/woodpecker";
 import fs from "fs";
 import dotenv from "dotenv";
 
@@ -7,9 +7,13 @@ if (result.error) {
     throw result.error;
 }
 
-const pfx = fs.readFileSync(process.env.PFX_FILE_PATH)
-const passphrase = process.env.PFX_FILE_PASSPHRASE
-const stage = process.env.STAGE;
+const config = {
+    pfx: process.env.PFX_FILE_PATH || '',
+    passphrase: process.env.PFX_FILE_PASSPHRASE || '',
+    stage: process.env.STAGE || ''
+}
+
+const pfx = fs.readFileSync(config.pfx);
 
 const run = async () => {
     const data = "HC1:6BFC80430FFWJWG.FKY*4GO0*+TAV7GVC5M5E6B0XK1JCSW83F30+GPGL3F30PGVHLY50.FK4IKPED3D3BRBJV2Y88*/ADDDA5COWVACEXZAUHK49AL.F1XGSSSQVK FIJIT+9UN7QDDB35EDFADRAELU8DJ.N6C+H*FQRN5*I3F5QM%E47RW70BKE-84I1";
@@ -17,14 +21,15 @@ const run = async () => {
     const txTag = "Market-Tomato";
     const verifyFor = "EU";
 
-    const verified = await woodpecker.verify(
-        stage,
-        data,
-        txId,
-        txTag,
-        verifyFor,
-        pfx,
-        passphrase);
+    const verified = await woodpecker.verify({
+        stage: config.stage,
+        data: data,
+        txId: txId,
+        txTag: txTag,
+        verifyFor: verifyFor,
+        pfxFile: config.pfx,
+        passphrase: config.passphrase
+    });
 
     console.log(Buffer.from(verified).toString('utf8'));
 

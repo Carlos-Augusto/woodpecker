@@ -3,7 +3,8 @@ npm-debug.log
 test
 temp*
 
-examples/.env
+dist
+.env
 .env.*
 .idea
 

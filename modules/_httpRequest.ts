@@ -1,6 +1,11 @@
-import fetch from 'node-fetch';
+import fetch, {RequestInit, Response} from 'node-fetch';
 
-export default async (request) => {
+type Request = {
+    url: string,
+    details: RequestInit
+}
+
+export default async (request: Request): Promise<Response> => {
     const resp = await fetch(request.url, request.details);
 
     if (resp.status > 299) {
