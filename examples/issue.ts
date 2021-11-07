@@ -1,18 +1,5 @@
 import woodpecker from "../modules/woodpecker.js";
-import fs from "fs";
-import dotenv from "dotenv";
-import {Stage} from "../modules/_httpCertify.js";
-
-const result = dotenv.config();
-if (result.error) {
-    throw result.error;
-}
-
-const config = {
-    pfx: fs.readFileSync(process.env.PFX_FILE_PATH || ''),
-    passphrase: process.env.PFX_FILE_PASSPHRASE || '',
-    stage: Stage[(process.env.STAGE || '').toUpperCase() as keyof typeof Stage]
-}
+import {config} from "../modules/_getConfig.js";
 
 const run = async () => {
     const data = {id: 123456789};
