@@ -1,4 +1,4 @@
-import httpCertify from "./_httpCertify.js";
+import httpCertify, {Stage} from "./_httpCertify.js";
 import {addDays, unixTime} from "./_addDays.js";
 
 import cbor from "cbor";
@@ -12,7 +12,7 @@ import {HeadersInit} from "node-fetch";
 const deflatePromise = util.promisify(zlib.deflate);
 
 type Issue<V> = {
-    stage: string,
+    stage: Stage,
     data: V,
     headers: HeadersInit,
     pfxFile: Buffer,
@@ -65,7 +65,7 @@ const issue = async (issue: Issue<any>): Promise<string> => {
 
 //stage, data, dccType, locId, txId, pfxFile, passphrase
 type IssueLoc<V> = {
-    stage: string,
+    stage: Stage,
     data: V,
     dccType: string,
     locId: string,

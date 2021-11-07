@@ -1,6 +1,7 @@
-import woodpecker from "../modules/woodpecker";
+import woodpecker from "../modules/woodpecker.js";
 import fs from "fs";
 import dotenv from "dotenv";
+import {Stage} from "../modules/_httpCertify.js";
 
 const result = dotenv.config();
 if (result.error) {
@@ -8,12 +9,10 @@ if (result.error) {
 }
 
 const config = {
-    pfx: process.env.PFX_FILE_PATH || '',
+    pfx: fs.readFileSync(process.env.PFX_FILE_PATH || ''),
     passphrase: process.env.PFX_FILE_PASSPHRASE || '',
-    stage: process.env.STAGE || ''
+    stage: Stage[(process.env.STAGE || '').toUpperCase() as keyof typeof Stage]
 }
-
-const pfx = fs.readFileSync(config.pfx);
 
 const run = async () => {
     const data = "HC1:6BFC80430FFWJWG.FKY*4GO0*+TAV7GVC5M5E6B0XK1JCSW83F30+GPGL3F30PGVHLY50.FK4IKPED3D3BRBJV2Y88*/ADDDA5COWVACEXZAUHK49AL.F1XGSSSQVK FIJIT+9UN7QDDB35EDFADRAELU8DJ.N6C+H*FQRN5*I3F5QM%E47RW70BKE-84I1";

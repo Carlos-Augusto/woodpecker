@@ -1,13 +1,12 @@
 import httpVerify from "./_httpVerify.js";
+import {HttpCredential, Stage} from "./_httpCertify.js";
 
-type Verify<V> = {
-    stage: string,
+export interface Verify<V> extends HttpCredential {
+    stage: Stage,
     data: V,
     txId: string,
     txTag: string,
-    verifyFor: string,
-    pfxFile: string,
-    passphrase: string
+    verifyFor: string
 }
 
 export const verify = async (verify: Verify<any>): Promise<string> => {

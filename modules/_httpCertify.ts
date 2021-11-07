@@ -2,23 +2,33 @@ import httpClient from './_httpRequest.js';
 import https from "https";
 import {BodyInit, HeadersInit, Response} from "node-fetch";
 
-type CertifyRequest = {
-    stage: string,
-    path: string,
-    method: string,
-    body: BodyInit | null,
-    headers: HeadersInit,
+export enum Stage {
+    DEV = "dev",
+    DEMO = "demo",
+    QA = "qa",
+    PROD = "prod"
+}
+
+export interface HttpCredential {
     pfxFile: Buffer,
     passphrase: string
 }
 
+export interface CertifyRequest extends HttpCredential {
+    stage: Stage,
+    path: string,
+    method: string,
+    body: BodyInit | null,
+    headers: HeadersInit
+}
+
 export default async (certifyRequest: CertifyRequest): Promise<Response> => {
-    if (certifyRequest.stage === "") {
+    if (certifyRequest.stage === undefined) {
         throw new Error("Stage can't be empty.")
     }
 
     let url = "https://api.certify." + certifyRequest.stage + ".ubirch.com" + certifyRequest.path;
-    if (certifyRequest.stage === "prod") {
+    if (certifyRequest.stage === Stage.PROD) {
         url = "https://api.certify.ubirch.com" + certifyRequest.path;
     }
 

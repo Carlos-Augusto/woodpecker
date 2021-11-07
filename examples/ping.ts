@@ -1,6 +1,7 @@
 import woodpecker from "../modules/woodpecker.js";
 import fs from "fs";
 import dotenv from "dotenv";
+import {Stage} from "../modules/_httpCertify.js";
 
 const result = dotenv.config();
 if (result.error) {
@@ -8,15 +9,17 @@ if (result.error) {
 }
 
 const config = {
-    pfx: process.env.PFX_FILE_PATH || '',
+    pfx: fs.readFileSync(process.env.PFX_FILE_PATH || ''),
     passphrase: process.env.PFX_FILE_PASSPHRASE || '',
-    stage: process.env.STAGE || ''
+    stage: Stage[(process.env.STAGE || '').toUpperCase() as keyof typeof Stage]
 }
 
-const pfx = fs.readFileSync(config.pfx);
-
 const run = async () => {
-    const pinged = await woodpecker.ping({stage:config.stage, pfxFile: pfx, passphrase: config.passphrase});
+    const pinged = await woodpecker.ping({
+        stage: config.stage,
+        pfxFile: config.pfx,
+        passphrase: config.passphrase
+    });
     console.log(Buffer.from(pinged).toString('utf8'));
 
     return true;

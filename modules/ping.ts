@@ -1,7 +1,7 @@
-import httpCertify from "./_httpCertify.js";
+import httpCertify, {Stage} from "./_httpCertify.js";
 
 type Ping = {
-    stage: string,
+    stage: Stage,
     pfxFile: Buffer,
     passphrase: string
 }

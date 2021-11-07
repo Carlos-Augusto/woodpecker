@@ -1,24 +1,23 @@
 import httpClient from './_httpRequest.js';
 import https from "https";
 import {BodyInit, HeadersInit} from "node-fetch";
+import {HttpCredential, Stage} from "./_httpCertify.js";
 
-type VerifyRequest = {
-    stage: string,
+interface VerifyRequest extends HttpCredential {
+    stage: Stage,
     path: string,
     method: string,
     body: BodyInit | null,
-    headers: HeadersInit,
-    pfxFile: string,
-    passphrase: string
+    headers: HeadersInit
 }
 
 export default async (verifyRequest: VerifyRequest) => {
-    if (verifyRequest.stage === "") {
+    if (verifyRequest.stage === undefined) {
         throw new Error("Stage can't be empty.")
     }
 
     let url = "https://api.uve." + verifyRequest.stage + ".ubirch.com" + verifyRequest.path;
-    if (verifyRequest.stage === "prod") {
+    if (verifyRequest.stage === Stage.PROD) {
         url = "https://api.uve.ubirch.com" + verifyRequest.path;
     }
 
