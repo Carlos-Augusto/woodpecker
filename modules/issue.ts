@@ -1,4 +1,4 @@
-import httpCertify, {Stage} from "./_httpCertify.js";
+import httpCertify, {HttpCredential, Stage} from "./_httpCertify.js";
 import {addDays, unixTime} from "./_addDays.js";
 
 import cbor from "cbor";
@@ -11,12 +11,10 @@ import {HeadersInit} from "node-fetch";
 
 const deflatePromise = util.promisify(zlib.deflate);
 
-type Issue<V> = {
+export interface Issue<V> extends HttpCredential {
     stage: Stage,
     data: V,
-    headers: HeadersInit,
-    pfxFile: Buffer,
-    passphrase: string
+    headers: HeadersInit
 }
 
 const issue = async (issue: Issue<any>): Promise<string> => {
@@ -63,15 +61,12 @@ const issue = async (issue: Issue<any>): Promise<string> => {
     return "HC1:" + base45.encode(compressedCert);
 }
 
-//stage, data, dccType, locId, txId, pfxFile, passphrase
-type IssueLoc<V> = {
+export interface IssueLoc<V> extends HttpCredential {
     stage: Stage,
     data: V,
     dccType: string,
     locId: string,
-    txId: string,
-    pfxFile: Buffer,
-    passphrase: string
+    txId: string
 }
 
 const fromLoc = (issueLoc: IssueLoc<any>): Promise<string> => {

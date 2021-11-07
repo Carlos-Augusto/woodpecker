@@ -1,9 +1,7 @@
-import httpCertify, {Stage} from "./_httpCertify.js";
+import httpCertify, {HttpCredential, Stage} from "./_httpCertify.js";
 
-type Ping = {
-    stage: Stage,
-    pfxFile: Buffer,
-    passphrase: string
+export interface Ping extends HttpCredential {
+    stage: Stage
 }
 
 export default async (ping: Ping) => {
