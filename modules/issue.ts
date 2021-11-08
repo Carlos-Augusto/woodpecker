@@ -25,16 +25,16 @@ const issue = async (issue: Issue<any>): Promise<string> => {
     }
     const now = new Date();
 
-    let p = new cbor.Map();
+    const p = new cbor.Map();
     p.set(1, issue.data);
 
-    let _payload = new cbor.Map();
+    const _payload = new cbor.Map();
     _payload.set(1, issue.issuer); // issuer
     _payload.set(6, unixTime(now.getTime())); // issued time
     _payload.set(4, unixTime(addDays(now, issue.expireAfterDays).getTime())); // exp
     _payload.set(-260, p);
 
-    let payload = cbor.encodeCanonical(_payload);
+    const payload = cbor.encodeCanonical(_payload);
 
     const sigStructureEncoded = cbor.encodeCanonical([
         'Signature1',
