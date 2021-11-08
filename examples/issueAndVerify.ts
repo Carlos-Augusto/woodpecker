@@ -10,6 +10,7 @@ const run = async () => {
     const issued = await woodpecker.issue.fromLoc({
         stage: config.stage,
         data: data,
+        issuer: "DE",
         expireAfterDays: 1,
         dccType: dccType,
         locId: locId,

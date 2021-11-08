@@ -14,6 +14,7 @@ const deflatePromise = util.promisify(zlib.deflate);
 export interface Issue<V> extends HttpCredential {
     stage: Stage,
     data: V,
+    issuer: string,
     expireAfterDays: number,
     headers: HeadersInit
 }
@@ -28,7 +29,7 @@ const issue = async (issue: Issue<any>): Promise<string> => {
     p.set(1, issue.data);
 
     let _payload = new cbor.Map();
-    _payload.set(1, "DE"); // issuer
+    _payload.set(1, issue.issuer); // issuer
     _payload.set(6, unixTime(now.getTime())); // issued time
     _payload.set(4, unixTime(addDays(now, issue.expireAfterDays).getTime())); // exp
     _payload.set(-260, p);
@@ -68,6 +69,7 @@ const issue = async (issue: Issue<any>): Promise<string> => {
 export interface IssueLoc<V> extends HttpCredential {
     stage: Stage,
     data: V,
+    issuer: string,
     expireAfterDays: number,
     dccType: string,
     locId: string,
@@ -85,6 +87,7 @@ const fromLoc = (issueLoc: IssueLoc<any>): Promise<string> => {
     return issue({
         stage: issueLoc.stage,
         data: issueLoc.data,
+        issuer: issueLoc.issuer,
         expireAfterDays: issueLoc.expireAfterDays,
         headers: headers,
         pfxFile: issueLoc.pfxFile,
