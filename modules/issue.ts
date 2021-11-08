@@ -14,10 +14,14 @@ const deflatePromise = util.promisify(zlib.deflate);
 export interface Issue<V> extends HttpCredential {
     stage: Stage,
     data: V,
+    expireAfterDays: number,
     headers: HeadersInit
 }
 
 const issue = async (issue: Issue<any>): Promise<string> => {
+    if (issue.expireAfterDays <= 0) {
+        throw new Error("expireAfterDays should be greater than 0 days")
+    }
     const now = new Date();
 
     let p = new cbor.Map();
@@ -26,7 +30,7 @@ const issue = async (issue: Issue<any>): Promise<string> => {
     let _payload = new cbor.Map();
     _payload.set(1, "DE"); // issuer
     _payload.set(6, unixTime(now.getTime())); // issued time
-    _payload.set(4, unixTime(addDays(now, 2).getTime())); // exp
+    _payload.set(4, unixTime(addDays(now, issue.expireAfterDays).getTime())); // exp
     _payload.set(-260, p);
 
     let payload = cbor.encodeCanonical(_payload);
@@ -64,6 +68,7 @@ const issue = async (issue: Issue<any>): Promise<string> => {
 export interface IssueLoc<V> extends HttpCredential {
     stage: Stage,
     data: V,
+    expireAfterDays: number,
     dccType: string,
     locId: string,
     txId: string
@@ -80,6 +85,7 @@ const fromLoc = (issueLoc: IssueLoc<any>): Promise<string> => {
     return issue({
         stage: issueLoc.stage,
         data: issueLoc.data,
+        expireAfterDays: issueLoc.expireAfterDays,
         headers: headers,
         pfxFile: issueLoc.pfxFile,
         passphrase: issueLoc.passphrase
