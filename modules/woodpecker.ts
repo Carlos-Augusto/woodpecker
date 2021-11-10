@@ -1,5 +1,5 @@
-import ping from "./ping.js";
-import issue from "./issue.js";
-import {verify} from "./verify.js";
+import ping from './ping.js'
+import issue from './issue.js'
+import { verify } from './verify.js'
 
-export default {ping, issue, verify};
+export default { ping, issue, verify }

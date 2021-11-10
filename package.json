@@ -6,19 +6,31 @@
   "type": "module",
   "types": "/dist/types",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "lint": "eslint -c .eslintrc.json modules/**/*.ts examples/**/*.ts",
+    "lint!": "eslint -c .eslintrc.json modules/**/*.ts examples/**/*.ts --fix"
   },
   "author": "Carlos Sanchez",
   "license": "ISC",
   "dependencies": {
     "base45": "^3.0.0",
+    "buffer": "^6.0.3",
     "cbor": "^8.0.2",
     "cose-js": "^0.7.0",
     "dotenv": "^10.0.0",
     "node-fetch": "^3.0.0",
+    "process": "^0.11.10",
     "zlib": "^1.0.5"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.3.1",
+    "@typescript-eslint/parser": "^5.3.1",
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.1",
     "ts-node": "^10.4.0",
     "typescript": "^4.4.4"
   }
