@@ -20,6 +20,8 @@ export interface Issue<V> extends HttpCredential {
     headers: HeadersInit
 }
 
+const prefix = 'HC1:'
+
 const issue = async (issue: Issue<any>): Promise<string> => {
   if (issue.expireAfterDays <= 0) {
     throw new Error('expireAfterDays should be greater than 0 days')
@@ -64,7 +66,7 @@ const issue = async (issue: Issue<any>): Promise<string> => {
   const encodedCert = cbor.encodeCanonical(decodedCert[0])
   const compressedCert = await deflatePromise(encodedCert)
 
-  return 'HC1:' + base45.encode(compressedCert)
+  return prefix + base45.encode(compressedCert)
 }
 
 export interface IssueLoc<V> extends HttpCredential {

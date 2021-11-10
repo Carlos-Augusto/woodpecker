@@ -2,12 +2,13 @@
   "name": "woodpecker",
   "version": "0.0.1",
   "description": "Library to create data certifications",
-  "main": "examples/app.js",
+  "main": "modules/woodpecker.ts",
   "type": "module",
   "types": "/dist/types",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
+    "export": "npm run build && npm publish --access public",
     "lint": "eslint -c .eslintrc.json modules/**/*.ts examples/**/*.ts",
     "lint!": "eslint -c .eslintrc.json modules/**/*.ts examples/**/*.ts --fix"
   },
