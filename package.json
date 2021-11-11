@@ -6,11 +6,11 @@
   "type": "module",
   "types": "/dist/types",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:mocha": "mocha tests",
     "build": "tsc",
     "export": "npm run build && npm publish --access public",
-    "lint": "eslint -c .eslintrc.json modules/**/*.ts examples/**/*.ts",
-    "lint!": "eslint -c .eslintrc.json modules/**/*.ts examples/**/*.ts --fix"
+    "lint": "eslint -c .eslintrc.json modules/**/*.ts examples/**/*.ts tests/**/*.ts",
+    "lint!": "eslint -c .eslintrc.json modules/**/*.ts examples/**/*.ts tests/**/*.ts --fix"
   },
   "author": "Carlos Sanchez",
   "license": "ISC",
@@ -25,6 +25,7 @@
     "zlib": "^1.0.5"
   },
   "devDependencies": {
+    "@types/mocha": "^9.0.0",
     "@types/node": "^16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
@@ -33,6 +34,7 @@
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.1",
+    "mocha": "^9.1.3",
     "ts-node": "^10.4.0",
     "typescript": "^4.4.4"
   }
