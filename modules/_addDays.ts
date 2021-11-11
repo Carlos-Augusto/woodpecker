@@ -3,6 +3,7 @@ export const unixTime = (date: number) => {
 }
 
 export const addDays = (date: Date, n: number) => {
-  const oneDayInMs = 86400 * 1000
-  return new Date(Date.parse(date.toDateString()) + (n * oneDayInMs))
+  const result = new Date(date)
+  result.setDate(result.getDate() + n)
+  return result
 }
