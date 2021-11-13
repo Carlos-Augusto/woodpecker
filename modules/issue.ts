@@ -26,6 +26,8 @@ const issue = async (issue: Issue<any>): Promise<string> => {
   if (issue.expireAfterDays <= 0) {
     throw new Error('expireAfterDays should be greater than 0 days')
   }
+
+  // We create the CWT object
   const now = new Date()
 
   const p = new cbor.Map()
@@ -39,6 +41,7 @@ const issue = async (issue: Issue<any>): Promise<string> => {
 
   const payload = cbor.encodeCanonical(_payload)
 
+  // We build the structure to be signed
   const sigStructureEncoded = cbor.encodeCanonical([
     'Signature1',
     Buffer.from([0xA1, 0x01, 0x26]),
