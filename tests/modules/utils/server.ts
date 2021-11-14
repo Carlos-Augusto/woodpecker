@@ -1,6 +1,6 @@
 import * as http from "http";
-import {IncomingMessage, RequestListener, Server, ServerResponse} from "http";
-import {once} from 'events';
+import { IncomingMessage, RequestListener, Server, ServerResponse } from "http";
+import { once } from 'events';
 
 //Inspired in https://github.com/node-fetch/node-fetch/blob/main/test/utils/server.js
 
