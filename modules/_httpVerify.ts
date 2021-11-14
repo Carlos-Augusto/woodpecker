@@ -2,6 +2,7 @@ import httpClient from './_httpRequest.js'
 import https from 'https'
 import { BodyInit, HeadersInit } from 'node-fetch'
 import { HttpCredential, Stage } from './_httpCertify.js'
+import * as Path from 'path'
 
 interface VerifyRequest extends HttpCredential {
     stage: Stage,
@@ -16,9 +17,9 @@ export default async (verifyRequest: VerifyRequest) => {
     throw new Error("Stage can't be empty.")
   }
 
-  let url = 'https://api.uve.' + verifyRequest.stage + '.ubirch.com' + verifyRequest.path
+  let url = Path.join('https://api.uve.' + verifyRequest.stage + '.ubirch.com', verifyRequest.path)
   if (verifyRequest.stage === Stage.PROD) {
-    url = 'https://api.uve.ubirch.com' + verifyRequest.path
+    url = Path.join('https://api.uve.ubirch.com', verifyRequest.path)
   }
 
   const httpsAgent = new https.Agent({

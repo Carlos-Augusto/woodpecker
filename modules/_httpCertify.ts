@@ -2,6 +2,7 @@ import httpClient from './_httpRequest.js'
 import https from 'https'
 import { BodyInit, HeadersInit, Response } from 'node-fetch'
 import { Buffer } from 'buffer'
+import * as Path from 'path'
 
 export enum Stage {
     DEV = 'dev',
@@ -28,9 +29,9 @@ export default async (certifyRequest: CertifyRequest): Promise<Response> => {
     throw new Error("Stage can't be empty.")
   }
 
-  let url = 'https://api.certify.' + certifyRequest.stage + '.ubirch.com' + certifyRequest.path
+  let url = Path.join('https://api.certify.' + certifyRequest.stage + '.ubirch.com', certifyRequest.path)
   if (certifyRequest.stage === Stage.PROD) {
-    url = 'https://api.certify.ubirch.com' + certifyRequest.path
+    url = Path.join('https://api.certify.ubirch.com', certifyRequest.path)
   }
 
   const httpsAgent = new https.Agent({
