@@ -2,13 +2,17 @@
 
 Library to create and verify data certifications using the Ubirch Certification Platform.
 
-`npm install -g typescript`
+# Building from code
 
-`npm install`
+Follow the following steps in order to have a working project from code.
 
-`npm run build`
-
-`npm run test:mocha`
+- `git clone git@github.com:Carlos-Augusto/woodpecker.git`
+- `cd woodpecker` 
+- `npm install -g typescript` 
+- `npm install -g eslint` 
+- `npm install`
+- `npm run build`
+- `npm run test:mocha`
 
 
 
