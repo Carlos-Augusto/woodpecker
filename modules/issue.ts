@@ -83,7 +83,7 @@ export interface IssueLoc<V> extends HttpCredential {
 }
 
 const fromLoc = (issueLoc: IssueLoc<any>): Promise<string> => {
-  const headers = {
+  const headers: HeadersInit = {
     'x-ubirch-dcctype': issueLoc.dccType,
     'x-location-id': issueLoc.locId,
     'x-transaction-id': issueLoc.txId,
