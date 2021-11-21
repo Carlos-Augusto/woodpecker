@@ -1,6 +1,6 @@
 import { describe, it, before, after } from 'mocha'
 import TestServer from './utils/serverHttps.js'
-import httpClient from '../../modules/_httpRequest.js'
+import httpClient from '../../modules/_httpClient.js'
 import assert from 'node:assert'
 import { IncomingMessage, ServerResponse } from 'http'
 import fs from 'fs'

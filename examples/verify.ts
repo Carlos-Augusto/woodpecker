@@ -9,7 +9,9 @@ const run = async () => {
   const verifyFor = 'EU'
 
   const verified = await woodpecker.verify({
-    stage: config.stage,
+    stage: {
+      hint: config.stage
+    },
     data: data,
     txId: txId,
     txTag: txTag,

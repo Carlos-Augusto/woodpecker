@@ -4,7 +4,9 @@ import { Buffer } from 'buffer'
 
 const run = async () => {
   const pinged = await woodpecker.ping({
-    stage: config.stage,
+    stage: {
+      hint: config.stage
+    },
     pfxFile: config.pfx,
     passphrase: config.passphrase
   })

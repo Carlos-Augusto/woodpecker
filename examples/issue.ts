@@ -9,7 +9,9 @@ const run = async () => {
   const txId = 'aaf72587a67951c1c446b7032288162239dbcfdda1414cf7bb015b01260f1647'
 
   const issued = await woodpecker.issue.fromLoc({
-    stage: config.stage,
+    stage: {
+      hint: config.stage
+    },
     data: data,
     issuer: 'DE',
     expireAfterDays: 1,
