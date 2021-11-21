@@ -2,19 +2,11 @@ import { after, before, describe, it } from 'mocha'
 import TestServer from './utils/serverHttps.js'
 import assert from 'node:assert'
 import { IncomingMessage, ServerResponse } from 'http'
-import fs from 'fs'
-import { ServerOptions } from 'https'
+import { options } from './utils/_serverOptions.js'
 import woodpecker from '../../modules/woodpecker.js'
 import { Hint } from '../../modules/_httpCertify.js'
 
 describe('issue', () => {
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
-
-  const options: ServerOptions = {
-    key: fs.readFileSync('tests/modules/key.pem'),
-    cert: fs.readFileSync('tests/modules/cert.pem')
-  }
-
   const local = new TestServer('localhost', options)
 
   before(async () => {
@@ -51,6 +43,6 @@ describe('issue', () => {
       pfxFile: Buffer.from([]),
       passphrase: ''
     })
-    assert(issued)
+    assert(issued !== "")
   })
 })
