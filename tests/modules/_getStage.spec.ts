@@ -4,6 +4,10 @@ import { describe, it } from 'mocha'
 import { Hint } from '../../modules/_httpCertify.js'
 
 describe('_getStage', () => {
+  it('get LOCAL Stage from local string', () => {
+    const stage = getStageHint('local')
+    assert(stage === Hint.LOCAL)
+  })
   it('get DEV Stage from dev string', () => {
     const stage = getStageHint('dev')
     assert(stage === Hint.DEV)
@@ -19,6 +23,10 @@ describe('_getStage', () => {
   it('get PROD Stage from prod string', () => {
     const stage = getStageHint('prod')
     assert(stage === Hint.PROD)
+  })
+  it('get LOCAL Stage from LOCAL string', () => {
+    const stage = getStageHint('LOCAL')
+    assert(stage === Hint.LOCAL)
   })
   it('get DEV Stage from DEV string', () => {
     const stage = getStageHint('DEV')
