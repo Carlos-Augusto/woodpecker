@@ -1,19 +1,11 @@
 import { describe, it, before, after } from 'mocha'
 import TestServer from './utils/serverHttps.js'
-import httpClient from '../../modules/_httpRequest.js'
+import httpClient from '../../modules/_httpClient.js'
 import assert from 'node:assert'
 import { IncomingMessage, ServerResponse } from 'http'
-import fs from 'fs'
-import { ServerOptions } from 'https'
+import { options } from './utils/_serverOptions.js'
 
 describe('_httpsRequest', () => {
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
-
-  const options: ServerOptions = {
-    key: fs.readFileSync('tests/modules/key.pem'),
-    cert: fs.readFileSync('tests/modules/cert.pem')
-  }
-
   const local = new TestServer('localhost', options)
   let base: string
 

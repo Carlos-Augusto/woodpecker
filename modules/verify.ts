@@ -8,7 +8,8 @@ export interface Verify<V> extends HttpCredential {
     txId: string,
     txTag: string,
     verifyFor: string,
-    validateFor?: string
+    validateFor?: string,
+    dateToCheck?: string
 }
 
 export const verify = async (verify: Verify<any>): Promise<string> => {
@@ -24,6 +25,11 @@ export const verify = async (verify: Verify<any>): Promise<string> => {
   if (verify.validateFor) {
     path = '/api/uve/v2/verify'
     headers['X-Validate-For'] = verify.validateFor
+  }
+
+  if (verify.dateToCheck) {
+    path = '/api/uve/v2/verify'
+    headers['X-Date-To-Check'] = verify.dateToCheck
   }
 
   const resp = await httpVerify({
