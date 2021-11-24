@@ -14,7 +14,7 @@ See [here](examples)
 
 ## Docs
 
-See [here](docs/index.html)
+See [here](docs)
 
 ## Building from code
 
