@@ -8,7 +8,7 @@ export const unixTime = (date: number) => {
 
 /**
  * Function that adds a number of days to the incoming date.
- * @param date the initial date
+ * @param date the initial {@link Date} date
  * @param n number of days that should be added
  */
 export const addDays = (date: Date, n: number) => {
