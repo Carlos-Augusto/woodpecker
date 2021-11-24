@@ -4,6 +4,10 @@ import { BodyInit, HeadersInit, Response } from 'node-fetch'
 import { Buffer } from 'buffer'
 import { URL } from 'url'
 
+/**
+ * Represents the stage against which
+ * the certification and verifications are executed.
+ */
 export enum Hint {
     LOCAL = 'local',
     DEV = 'dev',
@@ -12,16 +16,27 @@ export enum Hint {
     PROD = 'prod'
 }
 
+/**
+ * Represents the stage against which
+ * the certification and verifications are executed and a possible port
+ */
 export interface Stage {
     hint: Hint,
     port?: string
 }
 
+/**
+ * Represents the supported/needed credentials to identify as client against
+ * the certification and verification servers.
+ */
 export interface HttpCredential {
     pfxFile: Buffer,
     passphrase: string
 }
 
+/**
+ * Represents a low level request to the certification service.
+ */
 export interface CertifyRequest extends HttpCredential {
     stage: Stage,
     path: string,
@@ -30,6 +45,11 @@ export interface CertifyRequest extends HttpCredential {
     headers: HeadersInit
 }
 
+/**
+ * Prepares and sends a CertifyRequest to the httpClient.
+ * It takes care of properly creating the http agent information and its corresponding urls per stage
+ * @param certifyRequest represents the certification request.
+ */
 export default async (certifyRequest: CertifyRequest): Promise<Response> => {
   if (certifyRequest.stage === undefined) {
     throw new Error("Stage can't be empty.")

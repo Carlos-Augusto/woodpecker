@@ -12,6 +12,9 @@ import { Buffer } from 'buffer'
 
 const deflatePromise = util.promisify(zlib.deflate)
 
+/**
+ * Represents a Certification, that's to say, an issuing event.
+ */
 export interface Issue<V> extends HttpCredential {
     stage: Stage,
     data: V,
@@ -20,8 +23,15 @@ export interface Issue<V> extends HttpCredential {
     headers: HeadersInit
 }
 
+// Prefix for valid DDC certifications
 const prefix = 'HC1:'
 
+/**
+ * Core function for generating the needed COSE/CWT objects for certification.
+ * It is also responsable for post-processing after sending to the certification server.
+ * Note that the hash is created in this procedure.
+ * @param issue Represents a Certification value.
+ */
 const issue = async (issue: Issue<any>): Promise<string> => {
   if (issue.expireAfterDays <= 0) {
     throw new Error('expireAfterDays should be greater than 0 days')
@@ -72,6 +82,10 @@ const issue = async (issue: Issue<any>): Promise<string> => {
   return prefix + base45.encode(compressedCert)
 }
 
+/**
+ * Represents a Certification value based on a Location Id.
+ * A location id represents an origin uniquely.
+ */
 export interface IssueLoc<V> extends HttpCredential {
     stage: Stage,
     data: V,
@@ -82,6 +96,10 @@ export interface IssueLoc<V> extends HttpCredential {
     txId: string
 }
 
+/**
+ * Extended function that creates location-id based certifications.
+ * @param issueLoc
+ */
 const fromLoc = (issueLoc: IssueLoc<any>): Promise<string> => {
   const headers: HeadersInit = {
     'x-ubirch-dcctype': issueLoc.dccType,

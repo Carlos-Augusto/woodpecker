@@ -15,7 +15,8 @@
     "build": "tsc",
     "export": "npm run build && npm publish --access public",
     "lint": "eslint -c .eslintrc.json modules/**/*.ts examples/**/*.ts tests/**/*.ts",
-    "lint!": "eslint -c .eslintrc.json modules/**/*.ts examples/**/*.ts tests/**/*.ts --fix"
+    "lint!": "eslint -c .eslintrc.json modules/**/*.ts examples/**/*.ts tests/**/*.ts --fix",
+    "docs": "npx typedoc modules/*.ts"
   },
   "author": "Carlos Sanchez",
   "license": "ISC",
@@ -27,6 +28,7 @@
     "dotenv": "^10.0.0",
     "node-fetch": "^3.0.0",
     "process": "^0.11.10",
+    "typedoc": "^0.22.9",
     "zlib": "^1.0.5"
   },
   "devDependencies": {
