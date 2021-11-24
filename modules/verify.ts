@@ -2,6 +2,9 @@ import httpVerify from './_httpVerify.js'
 import { HttpCredential, Stage } from './_httpCertify.js'
 import { HeadersInit } from 'node-fetch'
 
+/**
+ * Represents a Verification, that's to say, a verifying event.
+ */
 export interface Verify<V> extends HttpCredential {
     stage: Stage,
     data: V,
@@ -12,6 +15,12 @@ export interface Verify<V> extends HttpCredential {
     dateToCheck?: string
 }
 
+/**
+ * Core function for verification of certificates.
+ * It supports versions V1 and V2 of the verification API.
+ * The V2 is activated by using X-Validate-For or X-Date-To-Check
+ * @param verify Verification data
+ */
 export const verify = async (verify: Verify<any>): Promise<string> => {
   let path = '/api/uve/v1/verify'
   const headers: HeadersInit = {

@@ -4,6 +4,9 @@ import { BodyInit, HeadersInit } from 'node-fetch'
 import { HttpCredential, Stage, Hint } from './_httpCertify.js'
 import { URL } from 'url'
 
+/**
+ * Represents a low level Verification request
+ */
 interface VerifyRequest extends HttpCredential {
     stage: Stage,
     path: string,
@@ -12,6 +15,11 @@ interface VerifyRequest extends HttpCredential {
     headers: HeadersInit
 }
 
+/**
+ * Prepares and sends a VerifyRequest to the httpClient
+ * It takes care of properly creating the http agent information and its corresponding urls per stage
+ * @param verifyRequest
+ */
 export default async (verifyRequest: VerifyRequest) => {
   if (verifyRequest.stage === undefined) {
     throw new Error("Stage can't be empty.")
