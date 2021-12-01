@@ -39,9 +39,7 @@ describe('issue', () => {
       expireAfterDays: 1,
       dccType: dccType,
       locId: locId,
-      txId: txId,
-      pfxFile: Buffer.from([]),
-      passphrase: ''
+      txId: txId
     })
     assert(issued !== '')
   })

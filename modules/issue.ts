@@ -15,12 +15,13 @@ const deflatePromise = util.promisify(zlib.deflate)
 /**
  * Represents a Certification, that's to say, an issuing event.
  */
-export interface Issue<V> extends HttpCredential {
+export interface Issue<V> {
     stage: Stage,
     data: V,
     issuer: string,
     expireAfterDays: number,
-    headers: HeadersInit
+    headers: HeadersInit,
+    credentials?: HttpCredential
 }
 
 // Prefix for valid DDC certifications
@@ -68,8 +69,7 @@ const issue = async (issue: Issue<any>): Promise<string> => {
     method: 'post',
     body: hash,
     headers: issue.headers,
-    pfxFile: issue.pfxFile,
-    passphrase: issue.passphrase
+    credentials: issue.credentials
   })
   const cert = await resp.buffer()
 
@@ -86,19 +86,20 @@ const issue = async (issue: Issue<any>): Promise<string> => {
  * Represents a Certification value based on a Location Id.
  * A location id represents an origin uniquely.
  */
-export interface IssueLoc<V> extends HttpCredential {
+export interface IssueLoc<V> {
     stage: Stage,
     data: V,
     issuer: string,
     expireAfterDays: number,
     dccType: string,
     locId: string,
-    txId: string
+    txId: string,
+    credentials?: HttpCredential
 }
 
 /**
  * Extended function that creates location-id based certifications.
- * @param issueLoc
+ * @param issueLoc Represents a location-based issuing
  */
 const fromLoc = (issueLoc: IssueLoc<any>): Promise<string> => {
   const headers: HeadersInit = {
@@ -114,8 +115,7 @@ const fromLoc = (issueLoc: IssueLoc<any>): Promise<string> => {
     issuer: issueLoc.issuer,
     expireAfterDays: issueLoc.expireAfterDays,
     headers: headers,
-    pfxFile: issueLoc.pfxFile,
-    passphrase: issueLoc.passphrase
+    credentials: issueLoc.credentials
   })
 }
 

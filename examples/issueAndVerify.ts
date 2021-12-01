@@ -18,8 +18,10 @@ const run = async () => {
     dccType: dccType,
     locId: locId,
     txId: txId,
-    pfxFile: config.pfx,
-    passphrase: config.passphrase
+    credentials: {
+      pfxFile: config.pfx,
+      passphrase: config.passphrase
+    }
   })
 
   console.log('Certificate: ' + Buffer.from(issued).toString('utf8'))
@@ -36,8 +38,10 @@ const run = async () => {
     txId: txId,
     txTag: txTag,
     verifyFor: verifyFor,
-    pfxFile: config.pfx,
-    passphrase: config.passphrase
+    credentials: {
+      pfxFile: config.pfx,
+      passphrase: config.passphrase
+    }
   })
 
   console.log('Validation: ' + Buffer.from(verified).toString('utf8'))

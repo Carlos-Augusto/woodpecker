@@ -7,8 +7,10 @@ const run = async () => {
     stage: {
       hint: config.stage
     },
-    pfxFile: config.pfx,
-    passphrase: config.passphrase
+    credentials: {
+      pfxFile: config.pfx,
+      passphrase: config.passphrase
+    }
   })
   console.log(Buffer.from(pinged).toString('utf8'))
 

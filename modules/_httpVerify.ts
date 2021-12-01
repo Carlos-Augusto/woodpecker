@@ -1,5 +1,5 @@
 import httpClient from './_httpClient.js'
-import https from 'https'
+import https, { Agent } from 'https'
 import { BodyInit, HeadersInit } from 'node-fetch'
 import { HttpCredential, Stage, Hint } from './_httpCertify.js'
 import { URL } from 'url'
@@ -7,12 +7,13 @@ import { URL } from 'url'
 /**
  * Represents a low level Verification request
  */
-interface VerifyRequest extends HttpCredential {
+interface VerifyRequest {
     stage: Stage,
     path: string,
     method: string,
     body: BodyInit | null,
-    headers: HeadersInit
+    headers: HeadersInit,
+    credentials?: HttpCredential
 }
 
 /**
@@ -25,11 +26,14 @@ export default async (verifyRequest: VerifyRequest) => {
     throw new Error("Stage can't be empty.")
   }
 
-  let httpsAgent = new https.Agent({
-    keepAlive: true,
-    pfx: verifyRequest.pfxFile,
-    passphrase: verifyRequest.passphrase
-  })
+  let httpsAgent: Agent = new https.Agent({})
+  if (verifyRequest.credentials) {
+    httpsAgent = new https.Agent({
+      keepAlive: true,
+      pfx: verifyRequest.credentials.pfxFile,
+      passphrase: verifyRequest.credentials.passphrase
+    })
+  }
 
   const url = new URL(verifyRequest.path, 'https://api.uve.' + verifyRequest.stage.hint + '.ubirch.com')
   if (verifyRequest.stage.port) {
@@ -40,7 +44,6 @@ export default async (verifyRequest: VerifyRequest) => {
   }
   if (verifyRequest.stage.hint === Hint.LOCAL) {
     url.host = 'localhost'
-    httpsAgent = new https.Agent({})
   }
 
   return await httpClient({

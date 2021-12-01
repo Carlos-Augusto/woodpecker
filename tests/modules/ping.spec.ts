@@ -30,9 +30,7 @@ describe('ping', () => {
       stage: {
         hint: Hint.LOCAL,
         port: local.port.toString()
-      },
-      pfxFile: Buffer.from([]),
-      passphrase: ''
+      }
     })
 
     assert(Buffer.from(verified).toString('utf8') === JSON.stringify(expected))
