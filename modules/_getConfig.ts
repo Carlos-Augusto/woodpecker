@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import fs from 'fs'
 import process from 'process'
 
-import { getStageHint } from '../modules/_getStage.js'
+import { getStageHint } from './_getStage.js'
 
 // Makes sure that the config is properly read
 const result = dotenv.config()
