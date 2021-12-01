@@ -3,8 +3,9 @@ import httpCertify, { HttpCredential, Stage } from './_httpCertify.js'
 /**
  * Represents a simple "ping" event.
  */
-export interface Ping extends HttpCredential {
-    stage: Stage
+export interface Ping {
+    stage: Stage,
+    credentials?: HttpCredential
 }
 
 /**
@@ -18,8 +19,7 @@ export default async (ping: Ping) => {
     method: 'get',
     body: null,
     headers: {},
-    pfxFile: ping.pfxFile,
-    passphrase: ping.passphrase
+    credentials: ping.credentials
   })
   return resp.buffer()
 }

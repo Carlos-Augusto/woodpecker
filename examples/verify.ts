@@ -15,8 +15,10 @@ const run = async () => {
     txId: txId,
     txTag: txTag,
     verifyFor: verifyFor,
-    pfxFile: config.pfx,
-    passphrase: config.passphrase
+    credentials: {
+      pfxFile: config.pfx,
+      passphrase: config.passphrase
+    }
   })
 
   console.log(verified)

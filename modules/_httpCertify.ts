@@ -1,5 +1,5 @@
 import httpClient from './_httpClient.js'
-import https from 'https'
+import https, { Agent } from 'https'
 import { BodyInit, HeadersInit, Response } from 'node-fetch'
 import { Buffer } from 'buffer'
 import { URL } from 'url'
@@ -37,12 +37,13 @@ export interface HttpCredential {
 /**
  * Represents a low level request to the certification service.
  */
-export interface CertifyRequest extends HttpCredential {
+export interface CertifyRequest {
     stage: Stage,
     path: string,
     method: string,
     body: BodyInit | null,
-    headers: HeadersInit
+    headers: HeadersInit,
+    credentials?: HttpCredential
 }
 
 /**
@@ -55,11 +56,14 @@ export default async (certifyRequest: CertifyRequest): Promise<Response> => {
     throw new Error("Stage can't be empty.")
   }
 
-  let httpsAgent = new https.Agent({
-    keepAlive: true,
-    pfx: certifyRequest.pfxFile,
-    passphrase: certifyRequest.passphrase
-  })
+  let httpsAgent: Agent = new https.Agent({})
+  if (certifyRequest.credentials) {
+    httpsAgent = new https.Agent({
+      keepAlive: true,
+      pfx: certifyRequest.credentials.pfxFile,
+      passphrase: certifyRequest.credentials.passphrase
+    })
+  }
 
   const url = new URL(certifyRequest.path, 'https://api.certify.' + certifyRequest.stage.hint + '.ubirch.com')
   if (certifyRequest.stage.port) {
@@ -70,7 +74,6 @@ export default async (certifyRequest: CertifyRequest): Promise<Response> => {
   }
   if (certifyRequest.stage.hint === Hint.LOCAL) {
     url.host = 'localhost'
-    httpsAgent = new https.Agent({})
   }
 
   return await httpClient({

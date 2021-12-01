@@ -5,7 +5,7 @@ import { HeadersInit } from 'node-fetch'
 /**
  * Represents a Verification, that's to say, a verifying event.
  */
-export interface Verify<V> extends HttpCredential {
+export interface Verify<V> {
     stage: Stage,
     data: V,
     txId: string,
@@ -13,7 +13,8 @@ export interface Verify<V> extends HttpCredential {
     verifyFor: string,
     validateFor?: string,
     dateToCheck?: string,
-    verbose?: boolean
+    verbose?: boolean,
+    credentials?: HttpCredential
 }
 
 /**
@@ -52,8 +53,7 @@ export const verify = async (verify: Verify<any>): Promise<string> => {
     method: 'post',
     body: verify.data,
     headers: headers,
-    pfxFile: verify.pfxFile,
-    passphrase: verify.passphrase
+    credentials: verify.credentials
   })
 
   return await resp.text()

@@ -4,7 +4,6 @@ import assert from 'node:assert'
 import { IncomingMessage, ServerResponse } from 'http'
 import { options } from './utils/_serverOptions.js'
 import woodpecker from '../../modules/woodpecker.js'
-import { Buffer } from 'buffer'
 import { Hint } from '../../modules/_httpCertify.js'
 
 describe('v1.verify', () => {
@@ -38,9 +37,7 @@ describe('v1.verify', () => {
       data: data,
       txId: txId,
       txTag: txTag,
-      verifyFor: verifyFor,
-      pfxFile: Buffer.from([]),
-      passphrase: ''
+      verifyFor: verifyFor
     })
 
     assert(verified === '{"id":123456789}')

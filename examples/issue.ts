@@ -18,8 +18,10 @@ const run = async () => {
     dccType: dccType,
     locId: locId,
     txId: txId,
-    pfxFile: config.pfx,
-    passphrase: config.passphrase
+    credentials: {
+      pfxFile: config.pfx,
+      passphrase: config.passphrase
+    }
   })
 
   console.log(Buffer.from(issued).toString('utf8'))
