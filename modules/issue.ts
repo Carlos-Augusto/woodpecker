@@ -119,6 +119,36 @@ const fromLoc = (issueLoc: IssueLoc<any>): Promise<string> => {
   })
 }
 
+export interface IssueUPP {
+    stage: Stage,
+    data: string | Buffer,
+    identity: string,
+    credentials?: HttpCredential
+}
+
+const fromIdentityId = async (issueUPP: IssueUPP): Promise<string> => {
+  const headers: HeadersInit = {
+    'X-Identity-Id': issueUPP.identity,
+    'Content-Type': 'text/plain'
+  }
+
+  const hash = crypto.createHash('sha256').update(issueUPP.data).digest('base64')
+
+  const path = '/api/v1/x509/anchor'
+  const resp = await httpCertify({
+    stage: issueUPP.stage,
+    path: path,
+    method: 'post',
+    body: hash,
+    headers: headers,
+    credentials: issueUPP.credentials
+  })
+
+  const cert = await resp.text()
+
+  return cert
+}
+
 export default {
-  fromLoc
+  fromLoc, fromIdentityId
 }
